@@ -8,7 +8,6 @@ import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.EnumDifficulty;
-import net.minecraftforge.oredict.ShapedOreRecipe;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import tterrag.difficultyrecipes.recipes.DifficultyRecipe;
 import codechicken.lib.gui.GuiDraw;
@@ -107,9 +106,9 @@ public class NEIShapelessDifficultyRecipe extends ShapelessRecipeHandler
     }
     
     @Override
-    public CachedShapedRecipe forgeShapedRecipe(ShapedOreRecipe recipe)
+    public CachedShapelessRecipe forgeShapelessRecipe(ShapelessOreRecipe recipe)
     {
-        return recipe == null ? null : super.forgeShapedRecipe(recipe);
+        return recipe == null ? null : super.forgeShapelessRecipe(recipe);
     }
 
     @Override
