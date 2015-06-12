@@ -8,6 +8,7 @@ buildscript {
 }
 
 apply plugin: 'forge'
+apply plugin: 'maven'
 apply plugin: 'curseforge'
 
 group = 'tterrag.difficultyrecipes'
@@ -71,6 +72,25 @@ task deobfJar(type: Jar) {
 
 tasks.build.dependsOn deobfJar
 
+publishing {
+    tasks.publish.dependsOn 'build'
+    publications {
+        mavenJava(MavenPublication) {
+            from components.java
+
+            artifact sourceJar
+            artifact apiJar
+            artifact deobfJar
+        }
+    }
+
+    repositories {
+        if (project.hasProperty('mavendir')) {
+            maven { url mavendir }
+        }
+    }
+}
+
 curse {
     dependsOn 'reobf'
     mustRunAfter 'publish'
@@ -78,7 +98,9 @@ curse {
 
     if (project.hasProperty('curseforge_key')) apiKey = project.curseforge_key
     projectId = project.curse_projectId
-    displayName = "ttCore ${mod_version}-${buildNum}"
+    displayName = "DifficultyRecipes ${mod_version}-${buildNum}"
     changelog = project.hasProperty('changelog') ? project.changelog : ''
     releaseType = project.curse_filetype
+    additionalArtifact deobfJar
+    relatedProject 'ttCore': 'requiredLibrary'
 }
