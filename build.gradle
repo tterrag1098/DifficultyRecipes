@@ -8,7 +8,7 @@ buildscript {
 }
 
 apply plugin: 'forge'
-apply plugin: 'maven'
+apply plugin: 'maven-publish'
 apply plugin: 'curseforge'
 
 group = 'tterrag.difficultyrecipes'
