@@ -1,7 +1,6 @@
 package tterrag.difficultyrecipes.recipes;
 
 import java.util.Collection;
-import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
@@ -16,6 +15,7 @@ import net.minecraft.world.World;
 import tterrag.difficultyrecipes.IDifficultyRecipe;
 
 import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -24,9 +24,9 @@ public abstract class DifficultyRecipe<T extends IRecipe> implements IDifficulty
 {
     public static final List<DifficultyRecipe<?>> allRecipes = Lists.newArrayList();
 
-    private Map<EnumDifficulty, T> recipes = new EnumMap<EnumDifficulty, T>(EnumDifficulty.class);
-
-    @Getter
+    private Map<EnumDifficulty, T> recipes = Maps.newHashMap();
+    
+    @Getter 
     private Class<T> type;
     @Getter
     private EnumDifficulty defaultDiff;
