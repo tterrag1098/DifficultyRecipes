@@ -101,7 +101,7 @@ curse {
     if (project.hasProperty('curseforge_key')) apiKey = project.curseforge_key
     projectId = project.curse_projectId
     displayName = "DifficultyRecipes ${mod_version}-${buildNum}"
-    changelog = project.hasProperty('changelog') ? project.changelog : ''
+    changelog = System.getenv("CHANGELOG").equals("none") ? project.hasProperty('changelog') ? project.changelog : '' : System.getenv("CHANGELOG")
     releaseType = project.curse_filetype
     additionalArtifact deobfJar
     relatedProject 'ttCore': 'requiredLibrary'
