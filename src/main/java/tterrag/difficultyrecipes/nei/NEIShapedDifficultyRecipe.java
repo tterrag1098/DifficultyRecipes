@@ -132,9 +132,9 @@ public class NEIShapedDifficultyRecipe extends ShapedRecipeHandler
                 sb.append(", ");
             }
             sb.delete(sb.length() - 2, sb.length());
+            String s2 = I18n.format(DifficultyRecipes.MODID + ".gui.also", sb.toString());
+            GuiDraw.drawStringC(s2, 83, 60, 0x666666, false);
         }
-        String s2 = I18n.format(DifficultyRecipes.MODID + ".gui.also", sb.toString());
         GuiDraw.drawStringC(s, 127, 10, DifficultyRecipe.getColorFor(diff), false);
-        GuiDraw.drawStringC(s2, 83, 60, 0x666666, false);
     }
 }

@@ -9,6 +9,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
+import tterrag.difficultyrecipes.DifficultyRecipes;
 import tterrag.difficultyrecipes.recipes.DifficultyRecipe;
 import tterrag.difficultyrecipes.util.Difficulty;
 import codechicken.lib.gui.GuiDraw;
@@ -122,15 +123,15 @@ public class NEIShapelessDifficultyRecipe extends ShapelessRecipeHandler
         Collection<Difficulty> dupes = DifficultyRecipe.getDuplicatedRecipes(cached.get(recipe), Difficulty.get(diff));
         if (!dupes.isEmpty())
         {
-            sb.append("Also: ");
             for (Difficulty e : dupes)
             {
                 sb.append(e.getLocName());
                 sb.append(", ");
             }
             sb.delete(sb.length() - 2, sb.length());
+            String s2 = I18n.format(DifficultyRecipes.MODID + ".gui.also", sb.toString());
+            GuiDraw.drawStringC(s2, 83, 60, 0x666666, false);
         }
         GuiDraw.drawString(s, 84, 10, DifficultyRecipe.getColorFor(diff), false);
-        GuiDraw.drawStringC(sb.toString(), 83, 60, 0x666666, false);
     }
 }
