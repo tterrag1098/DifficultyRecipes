@@ -11,6 +11,7 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraftforge.oredict.ShapedOreRecipe;
 import tterrag.difficultyrecipes.DifficultyRecipes;
 import tterrag.difficultyrecipes.recipes.DifficultyRecipe;
+import tterrag.difficultyrecipes.util.Difficulty;
 import codechicken.lib.gui.GuiDraw;
 import codechicken.nei.NEIServerUtils;
 import codechicken.nei.recipe.ShapedRecipeHandler;
@@ -108,7 +109,7 @@ public class NEIShapedDifficultyRecipe extends ShapedRecipeHandler
             }
         }
     }
-    
+
     @Override
     public CachedShapedRecipe forgeShapedRecipe(ShapedOreRecipe recipe)
     {
@@ -122,12 +123,12 @@ public class NEIShapedDifficultyRecipe extends ShapedRecipeHandler
         EnumDifficulty diff = Minecraft.getMinecraft().theWorld.difficultySetting;
         String s = I18n.format(diff.getDifficultyResourceKey());
         StringBuilder sb = new StringBuilder();
-        Collection<EnumDifficulty> dupes = DifficultyRecipe.getDuplicatedRecipes(cached.get(recipe), diff);
+        Collection<Difficulty> dupes = DifficultyRecipe.getDuplicatedRecipes(cached.get(recipe), Difficulty.get(diff));
         if (!dupes.isEmpty())
         {
-            for (EnumDifficulty e : dupes)
+            for (Difficulty e : dupes)
             {
-                sb.append(I18n.format(e.getDifficultyResourceKey()));
+                sb.append(e.getLocName());
                 sb.append(", ");
             }
             sb.delete(sb.length() - 2, sb.length());

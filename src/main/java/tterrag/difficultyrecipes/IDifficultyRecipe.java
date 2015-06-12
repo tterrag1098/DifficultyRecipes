@@ -1,11 +1,11 @@
 package tterrag.difficultyrecipes;
 
 import net.minecraft.item.crafting.IRecipe;
-import net.minecraft.world.EnumDifficulty;
+import tterrag.difficultyrecipes.util.Difficulty;
 
 public interface IDifficultyRecipe<T extends IRecipe> extends IRecipe
 {
-    T getRecipe(EnumDifficulty diff);
+    T getRecipe(Difficulty diff);
 
     Class<T> getType();
 }

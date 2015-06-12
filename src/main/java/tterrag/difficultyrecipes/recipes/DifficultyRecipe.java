@@ -1,6 +1,7 @@
 package tterrag.difficultyrecipes.recipes;
 
 import java.util.Collection;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 
@@ -13,9 +14,9 @@ import net.minecraft.item.crafting.IRecipe;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import tterrag.difficultyrecipes.IDifficultyRecipe;
+import tterrag.difficultyrecipes.util.Difficulty;
 
 import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -24,19 +25,19 @@ public abstract class DifficultyRecipe<T extends IRecipe> implements IDifficulty
 {
     public static final List<DifficultyRecipe<?>> allRecipes = Lists.newArrayList();
 
-    private Map<EnumDifficulty, T> recipes = Maps.newHashMap();
-    
-    @Getter 
+    private Map<Difficulty, T> recipes = new EnumMap<Difficulty, T>(Difficulty.class);
+
+    @Getter
     private Class<T> type;
     @Getter
-    private EnumDifficulty defaultDiff;
+    private Difficulty defaultDiff;
 
     private transient IRecipe cur;
 
     @Override
     public boolean matches(InventoryCrafting inv, World world)
     {
-        cur = getRecipe(world.difficultySetting);
+        cur = getRecipe(Difficulty.get(world.difficultySetting));
         if (cur != null && cur.matches(inv, world))
         {
             return true;
@@ -63,8 +64,13 @@ public abstract class DifficultyRecipe<T extends IRecipe> implements IDifficulty
         return cur == null ? null : cur.getRecipeOutput();
     }
 
-    @Override
     public T getRecipe(EnumDifficulty diff)
+    {
+        return getRecipe(Difficulty.get(diff));
+    }
+
+    @Override
+    public T getRecipe(Difficulty diff)
     {
         T rec = recipes.get(diff);
         return rec == null ? hasDefault() ? recipes.get(defaultDiff) : null : rec;
@@ -75,11 +81,11 @@ public abstract class DifficultyRecipe<T extends IRecipe> implements IDifficulty
         return defaultDiff != null;
     }
 
-    public static <T extends IRecipe> Collection<EnumDifficulty> getDuplicatedRecipes(DifficultyRecipe<T> recipe, EnumDifficulty actual)
+    public static <T extends IRecipe> Collection<Difficulty> getDuplicatedRecipes(DifficultyRecipe<T> recipe, Difficulty actual)
     {
-        List<EnumDifficulty> ret = Lists.newArrayList();
+        List<Difficulty> ret = Lists.newArrayList();
         T base = recipe.recipes.get(actual);
-        for (EnumDifficulty e : EnumDifficulty.values())
+        for (Difficulty e : Difficulty.values())
         {
             T temp = recipe.recipes.get(e);
             // No recipe for the current difficulty, so we check for a possible default
@@ -121,13 +127,13 @@ public abstract class DifficultyRecipe<T extends IRecipe> implements IDifficulty
             this.recipe.type = type;
         }
 
-        public Builder<T> addRecipe(EnumDifficulty diff, T recipe)
+        public Builder<T> addRecipe(Difficulty diff, T recipe)
         {
             this.recipe.recipes.put(diff, recipe);
             return this;
         }
 
-        public Builder<T> setDefault(EnumDifficulty diff)
+        public Builder<T> setDefault(Difficulty diff)
         {
             this.recipe.defaultDiff = diff;
             return this;
