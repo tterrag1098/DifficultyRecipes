@@ -23,7 +23,7 @@ public abstract class DifficultyRecipe<T extends IRecipe> implements IDifficulty
 {
     public static final List<DifficultyRecipe<?>> allRecipes = Lists.newArrayList();
 
-    private EnumMap<EnumDifficulty, T> recipes = new EnumMap<>(EnumDifficulty.class);
+    private EnumMap<EnumDifficulty, T> recipes = new EnumMap<EnumDifficulty, T>(EnumDifficulty.class);
     @Getter
     private Class<T> type;
     @Getter

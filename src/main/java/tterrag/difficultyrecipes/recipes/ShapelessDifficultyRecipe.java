@@ -17,6 +17,6 @@ public class ShapelessDifficultyRecipe extends DifficultyRecipe<ShapelessOreReci
 
     public static Builder<ShapelessOreRecipe> builder()
     {
-        return new Builder<>(new ShapelessDifficultyRecipe(), ShapelessOreRecipe.class);
+        return new Builder<ShapelessOreRecipe>(new ShapelessDifficultyRecipe(), ShapelessOreRecipe.class);
     }
 }

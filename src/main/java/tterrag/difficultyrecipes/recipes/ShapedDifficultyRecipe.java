@@ -17,6 +17,6 @@ public class ShapedDifficultyRecipe extends DifficultyRecipe<ShapedOreRecipe>
 
     public static Builder<ShapedOreRecipe> builder()
     {
-        return new Builder<>(new ShapedDifficultyRecipe(), ShapedOreRecipe.class);
+        return new Builder<ShapedOreRecipe>(new ShapedDifficultyRecipe(), ShapedOreRecipe.class);
     }
 }
