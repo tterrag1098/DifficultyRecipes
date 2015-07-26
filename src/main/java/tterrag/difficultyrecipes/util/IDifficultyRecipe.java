@@ -1,11 +1,13 @@
-package tterrag.difficultyrecipes;
+package tterrag.difficultyrecipes.util;
 
 import net.minecraft.item.crafting.IRecipe;
-import tterrag.difficultyrecipes.util.Difficulty;
+import net.minecraft.world.World;
 
 public interface IDifficultyRecipe<T extends IRecipe> extends IRecipe
 {
     T getRecipe(Difficulty diff);
 
     Class<T> getType();
+    
+    Difficulty getDifficulty(World world);
 }

@@ -7,7 +7,6 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.StatCollector;
-import net.minecraft.world.EnumDifficulty;
 import net.minecraftforge.oredict.ShapelessOreRecipe;
 import tterrag.difficultyrecipes.DifficultyRecipes;
 import tterrag.difficultyrecipes.recipes.DifficultyRecipe;
@@ -42,7 +41,7 @@ public class NEIShapelessDifficultyRecipe extends ShapelessRecipeHandler
                     DifficultyRecipe<ShapelessOreRecipe> recipe = (DifficultyRecipe<ShapelessOreRecipe>) rec;
 
                     cached = forgeShapelessRecipe(((DifficultyRecipe<ShapelessOreRecipe>) rec)
-                            .getRecipe(Minecraft.getMinecraft().theWorld.difficultySetting));
+                            .getRecipe(rec.getDifficulty(Minecraft.getMinecraft().theWorld)));
 
                     if (cached == null)
                         continue;
@@ -67,7 +66,7 @@ public class NEIShapelessDifficultyRecipe extends ShapelessRecipeHandler
             if (rec.getType() == ShapelessOreRecipe.class)
             {
                 DifficultyRecipe<ShapelessOreRecipe> recipe = (DifficultyRecipe<ShapelessOreRecipe>) rec;
-                EnumDifficulty diff = Minecraft.getMinecraft().theWorld.difficultySetting;
+                Difficulty diff = recipe.getDifficulty(Minecraft.getMinecraft().theWorld);
                 ShapelessOreRecipe irecipe = recipe.getRecipe(diff);
                 if (irecipe != null && NEIServerUtils.areStacksSameTypeCrafting(irecipe.getRecipeOutput(), result))
                 {
@@ -92,7 +91,7 @@ public class NEIShapelessDifficultyRecipe extends ShapelessRecipeHandler
             {
                 DifficultyRecipe<ShapelessOreRecipe> recipe = (DifficultyRecipe<ShapelessOreRecipe>) rec;
                 CachedShapelessRecipe cached = null;
-                cached = forgeShapelessRecipe(recipe.getRecipe(Minecraft.getMinecraft().theWorld.difficultySetting));
+                cached = forgeShapelessRecipe(recipe.getRecipe(recipe.getDifficulty(Minecraft.getMinecraft().theWorld)));
 
                 if (cached == null || !cached.contains(cached.ingredients, ingredient.getItem()))
                     continue;
@@ -106,7 +105,7 @@ public class NEIShapelessDifficultyRecipe extends ShapelessRecipeHandler
             }
         }
     }
-    
+
     @Override
     public CachedShapelessRecipe forgeShapelessRecipe(ShapelessOreRecipe recipe)
     {
@@ -114,13 +113,14 @@ public class NEIShapelessDifficultyRecipe extends ShapelessRecipeHandler
     }
 
     @Override
-    public void drawExtras(int recipe)
+    public void drawExtras(int recipeIndex)
     {
-        super.drawExtras(recipe);
-        EnumDifficulty diff = Minecraft.getMinecraft().theWorld.difficultySetting;
-        String s = I18n.format(diff.getDifficultyResourceKey());
+        super.drawExtras(recipeIndex);
+        DifficultyRecipe<?> recipe = cached.get(recipeIndex);
+        Difficulty diff = recipe.getDifficulty(Minecraft.getMinecraft().theWorld);
+        String s = diff.getLocName();
         StringBuilder sb = new StringBuilder();
-        Collection<Difficulty> dupes = DifficultyRecipe.getDuplicatedRecipes(cached.get(recipe), Difficulty.get(diff));
+        Collection<Difficulty> dupes = DifficultyRecipe.getDuplicatedRecipes(recipe, diff);
         if (!dupes.isEmpty())
         {
             for (Difficulty e : dupes)
